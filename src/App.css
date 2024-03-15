@@ -1,0 +1,37 @@
+@font-face {
+  font-family: Basis Grotesque Pro, sans-serif;
+  src: url(./assets/fonts/BasisGrotesquePro-Medium.ttf);
+}
+
+@font-face {
+  font-family: Basis Grotesque Pro, sans-serif;
+  src: url(./assets/fonts/BasisGrotesquePro-Bold.ttf);
+  font-weight: bold;
+}
+
+html {
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 14px;
+}
+
+.logo {
+  margin-bottom: 80px;
+}
+
+.title {
+  margin-bottom: 40px;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.title {
+
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 38.73px;
+}

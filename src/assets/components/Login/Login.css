@@ -1,0 +1,96 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.login-top {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-btn {
+  display: flex;
+  gap: 10px;
+  padding: 15px 60px;
+  border: 1.2px solid #D3D8DC;
+  text-decoration: none;
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #060E1E;
+}
+
+.login-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  color: #BEC5CC;
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.login-line::before {
+  content: "";
+  width: 186px;
+  height: 1px;
+  background-color: #E3E6E9;
+}
+
+.login-line::after {
+  content: "";
+  width: 186px;
+  height: 1px;
+  background-color: #E3E6E9;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.input {
+  padding: 14px 190px 14px 12px;
+
+  border: 1.2px solid #D3D8DC;
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.submit {
+  cursor: pointer;
+  color: #fff;
+  width: 400px;
+  padding: 13px 0 13px;
+  text-align: center;
+  background-color: #316FEA;
+  border-radius: 8px;
+  border: 1px solid #316FEA;
+
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 16px;
+  line-height: 21px;
+}
+
+.text {
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  color: #383838;
+}
+
+.bottom-link {
+  text-decoration: none;
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  color: #316FEA;
+}
