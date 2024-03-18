@@ -1,3 +1,4 @@
+import { useForm } from 'react-hook-form';
 import { useGoogleLogin } from '@react-oauth/google';
 import './Login.css';
 import { useEffect } from 'react';
@@ -7,6 +8,9 @@ const GITHUB_CLIENT_SECRET = 'd0137205364daf369592f9b5f68eab2de53e8408';
 const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=user`;
 
 export const Login = () => {
+  const { register, formState: { errors }, handleSubmit } = useForm({
+    mode: 'onBlur',
+  });
 
   const login = useGoogleLogin({
     onSuccess: tokenResponse => console.log(tokenResponse),
@@ -53,7 +57,16 @@ console.log(`Welcome, ${userProfile.data.name}!`);
 
   useEffect(() => {
     handleGitHubCallback();
-  }, [])
+  }, []);
+
+  const onSubmit = (data) => {
+    fetch('https://auth-qa.qencode.com/v1/auth-api-references#tag / login / operation / login_v1_auth_login_post', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify(data)
+    });
+    
+  }
 
   return (
     <div className="login">
@@ -76,19 +89,26 @@ console.log(`Welcome, ${userProfile.data.name}!`);
       </div>
       <p className="login-line">OR</p>
 
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <div className="field">
           <div className="control">
-            <input  className="input is-large" type="email" placeholder="Work email"/>
+            <input 
+              className="input is-large"
+              placeholder="Work email"
+              {...register('email', {
+                required: 'Email is required',
+                minLength: {
+                  value: 5,
+                  message: 'Min 5 symbols'
+                },
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: 'Invalid email format'
+                }
+              })}
+            />
+            <p style={{color: 'red'}}>{errors.email?.message}</p>
           </div>
-        </div>
-        <div className="field">
-          <p className="control has-icons-left has-icons-right">
-            <input  id="form_password" className="input is-large" type="password" placeholder="Password" />
-              <span id="btn_toggle" className="icon is-small is-right">
-                <i className="fa fa-eye"></i>
-              </span>
-          </p>
         </div>
         <button type="submit" className="submit">Log in Qencode</button>
       </form>
