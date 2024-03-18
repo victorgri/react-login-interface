@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useGoogleLogin } from '@react-oauth/google';
 import './Login.css';
-import { useEffect } from 'react';
 
 const GITHUB_CLIENT_ID = '15086237634938d4a94b';
 const GITHUB_CLIENT_SECRET = 'd0137205364daf369592f9b5f68eab2de53e8408';
@@ -11,6 +12,7 @@ export const Login = () => {
   const { register, formState: { errors }, handleSubmit } = useForm({
     mode: 'onBlur',
   });
+
 
   const login = useGoogleLogin({
     onSuccess: tokenResponse => console.log(tokenResponse),
@@ -59,14 +61,16 @@ console.log(`Welcome, ${userProfile.data.name}!`);
     handleGitHubCallback();
   }, []);
 
+  
+
   const onSubmit = (data) => {
-    fetch('https://auth-qa.qencode.com/v1/auth-api-references#tag / login / operation / login_v1_auth_login_post', {
+    data.access_id = accessToken;
+    fetch('https://auth-qa.qencode.com/v1/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       body: JSON.stringify(data)
-    });
-    
-  }
+    })
+  };
 
   return (
     <div className="login">
@@ -92,24 +96,35 @@ console.log(`Welcome, ${userProfile.data.name}!`);
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <div className="field">
           <div className="control">
-            <input 
-              className="input is-large"
-              placeholder="Work email"
-              {...register('email', {
-                required: 'Email is required',
-                minLength: {
-                  value: 5,
-                  message: 'Min 5 symbols'
-                },
-                pattern: {
-                  value: /\S+@\S+\.\S+/,
-                  message: 'Invalid email format'
-                }
-              })}
-            />
+            <input className="input is-large" type="email" {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })} />
             <p style={{color: 'red'}}>{errors.email?.message}</p>
           </div>
         </div>
+
+        {!errors.email && (
+          <div className="field">
+            <div className="control">
+              <input
+                type="password"
+                className="input is-large"
+                placeholder="Password"
+                {...register('password', {
+                  required: 'Password is required',
+                  minLength: {
+                    value: 8,
+                    message: 'Min 8 symbols'
+                  },
+                  pattern: {
+                    value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8})$/,
+                    message: 'At least 8 characters and 1 number, lowercase and uppercase letter'
+                  }
+                })}
+              />
+              <p style={{ color: 'red' }}>{errors.password?.message}</p>
+            </div>
+          </div>
+        )}
+
         <button type="submit" className="submit">Log in Qencode</button>
       </form>
 
