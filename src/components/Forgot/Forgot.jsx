@@ -1,9 +1,18 @@
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import './Forgot.css';
 
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+}).required();
+
 export const Forgot = () => {
-  const { register, formState: { errors } } = useForm();
+  const { register, formState: { errors } } = useForm({
+    mode: 'onBlur',
+    resolver: yupResolver(schema),
+  });
 
   return (
     <div className="forgot">
@@ -17,8 +26,9 @@ export const Forgot = () => {
               { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })}
             placeholder="Enter your email"
           />
-          <p style={{ color: 'red' }}>{errors.email?.message}</p>
+          
         </div>
+        <p style={{ color: 'red' }}>{errors.email?.message}</p>
       </div>
       <Link className="submit-btn" to="/reset">Send</Link>
       <Link className="submit-btn submit-btn-cancel" to="/">Cancel</Link>

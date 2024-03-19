@@ -4,9 +4,14 @@ import { Link } from 'react-router-dom';
 import './Reset.css';
 
 export const Reset = () => {
-  const { register, formState: { errors } } = useForm({
+  const {
+    register,
+    formState: { errors },
+    getValues
+  } = useForm({
     mode: 'onBlur',
   });
+
 
   const [passwordType, setPasswordType] = useState('password');
   const [confirm, setConfirm] = useState('password');
@@ -47,7 +52,7 @@ export const Reset = () => {
               type={confirm}
               className="input is-large"
               placeholder="Password"
-              {...register('password', {
+              {...register('confirm', {
                 required: 'Password is required',
                 minLength: {
                   value: 8,
@@ -62,8 +67,17 @@ export const Reset = () => {
           </div>
           <p style={{ color: 'red' }}>{errors.password?.message}</p>
         </div>
-
-        <Link to="/" className="submit-btn">Reset password</Link>
+      {getValues().password !== getValues().confirm
+        ? 
+        (<>
+          <Link to="/reset" className="submit-btn">Reset password</Link>
+          <p style={{ color: "red" }}>Password field  sould match with confirm field</p>
+        </>
+        ) : (
+          <Link to="/" className="submit-btn">Reset password</Link>
+          )
+      }
+        
     </div>
   )
 }

@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useGoogleLogin } from '@react-oauth/google';
@@ -11,13 +13,23 @@ const GITHUB_CLIENT_ID = '15086237634938d4a94b';
 const GITHUB_CLIENT_SECRET = 'd0137205364daf369592f9b5f68eab2de53e8408';
 const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=user`;
 
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(8).required(),
+}).required();
+
 
 export const Login = () => {
-  const { register, formState: { errors }, handleSubmit } = useForm({
+  const {
+    register,
+    formState: { errors }, 
+    handleSubmit,
+  } = useForm({
     mode: 'onBlur',
+    resolver: yupResolver(schema)
   });
 
-  const [type, setType] = useState('password');
+  const [inputType, setInputType] = useState('password');
 
 // Function to login with google
   const login = useGoogleLogin({
@@ -75,6 +87,13 @@ console.log(`Welcome, ${userProfile.data.name}!`);
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       body: JSON.stringify(data)
     })
+      .then((res) => {
+        if (!res.ok) {
+        alert('Something went wrong')
+        } else {
+          alert('Succefuly logged in')
+        }
+    })
   };
 
   return (
@@ -104,21 +123,24 @@ console.log(`Welcome, ${userProfile.data.name}!`);
           <div className="control">
             <input
             className="input is-large"
-            type="email"
+              type="email"
+            placeholder="Email"
               {...register('email',
                 {
                   required: 'Email is required',
                 })}
             />
+            {errors.mail ? <p role="alert">{errors.mail.message}</p> : ''}
           </div>
           <p style={{ color: 'red' }}>{errors.email?.message}</p>
         </div>
+        
 
         {!errors.email && (
           <div className="field">
             <div className="control">
               <input
-                type={type}
+                type={inputType}
                 className="input is-large"
                 placeholder="Password"
                 {...register('password', {
@@ -127,10 +149,14 @@ console.log(`Welcome, ${userProfile.data.name}!`);
                     value: 8,
                     message: 'Min 8 symbols'
                   },
+                  pattern: {
+                    value: '/[A-Z0-9a-z@]^[$#<>?]/',
+                    message: 'Wrong email format'
+                  }
                 })}
               />
               <label className="label">
-                <input className="checkbox" type="checkbox" onChange={() => type === 'password'? setType('text') : setType('password')}/>
+                <input className="checkbox" type="checkbox" onChange={() => inputType === 'password'? setInputType('text') : setInputType('password')}/>
                 <span className="checkbox-img"/>
               </label>
 
