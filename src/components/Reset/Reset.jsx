@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import './Reset.css';
 
 export const Reset = () => {
   const { register, formState: { errors } } = useForm({
@@ -11,11 +12,12 @@ export const Reset = () => {
   const [confirm, setConfirm] = useState('password');
 
   return (
-    <>
+    <div className="reset">
       <h1 className="title">Create new password</h1>
-      <form>
-        <div className="field">
-          Password
+
+      <div className="field">
+        <p className="text">Password</p>
+          
           <div className="control">
             
             <input
@@ -38,7 +40,7 @@ export const Reset = () => {
           <p style={{ color: 'red' }}>{errors.password?.message}</p>
         </div>
         <div className="field">
-          Confirm
+        <p className="text">Confirm</p>
           <div className="control">
             
             <input
@@ -62,8 +64,6 @@ export const Reset = () => {
         </div>
 
         <Link to="/" className="submit-btn">Reset password</Link>
-      </form>
-
-    </>
+    </div>
   )
 }

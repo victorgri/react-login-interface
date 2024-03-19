@@ -13,3 +13,29 @@
   font-size: 16px;
   line-height: 21px;
 }
+
+
+.reset {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.text {
+  display: flex;
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 15px;
+  line-height: 21px;
+  font-weight: 500;
+  color: #060E1E;
+}
+
+.input {
+  height: 100%;
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
