@@ -1,23 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useGoogleLogin } from '@react-oauth/google';
 import './Login.css';
+import { Link } from 'react-router-dom';
 
+
+// Data to login with github
 const GITHUB_CLIENT_ID = '15086237634938d4a94b';
 const GITHUB_CLIENT_SECRET = 'd0137205364daf369592f9b5f68eab2de53e8408';
 const githubOAuthURL = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=user`;
+
 
 export const Login = () => {
   const { register, formState: { errors }, handleSubmit } = useForm({
     mode: 'onBlur',
   });
 
+  const [type, setType] = useState('password');
 
+// Function to login with google
   const login = useGoogleLogin({
     onSuccess: tokenResponse => console.log(tokenResponse),
   });
 
+  // Function to login with github
   const handleLogin = async (code) => {
     try {
       const data = await fetch('https://github.com/login/oauth/access_token', {
@@ -51,7 +58,6 @@ console.log(`Welcome, ${userProfile.data.name}!`);
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
-
     if (code) {
       handleLogin(code);
     }
@@ -62,9 +68,8 @@ console.log(`Welcome, ${userProfile.data.name}!`);
   }, []);
 
   
-
+  // Function to login wish email and password
   const onSubmit = (data) => {
-    data.access_id = accessToken;
     fetch('https://auth-qa.qencode.com/v1/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
@@ -74,6 +79,7 @@ console.log(`Welcome, ${userProfile.data.name}!`);
 
   return (
     <div className="login">
+      <h1 className="title">Log in to your account</h1>
       <div className="login-top">
         <a
           href="/"
@@ -96,16 +102,23 @@ console.log(`Welcome, ${userProfile.data.name}!`);
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <div className="field">
           <div className="control">
-            <input className="input is-large" type="email" {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })} />
-            <p style={{color: 'red'}}>{errors.email?.message}</p>
+            <input
+            className="input is-large"
+            type="email"
+              {...register('email',
+                {
+                  required: 'Email is required',
+                })}
+            />
           </div>
+          <p style={{ color: 'red' }}>{errors.email?.message}</p>
         </div>
 
         {!errors.email && (
           <div className="field">
             <div className="control">
               <input
-                type="password"
+                type={type}
                 className="input is-large"
                 placeholder="Password"
                 {...register('password', {
@@ -114,18 +127,24 @@ console.log(`Welcome, ${userProfile.data.name}!`);
                     value: 8,
                     message: 'Min 8 symbols'
                   },
-                  pattern: {
-                    value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8})$/,
-                    message: 'At least 8 characters and 1 number, lowercase and uppercase letter'
-                  }
                 })}
               />
-              <p style={{ color: 'red' }}>{errors.password?.message}</p>
+              <label className="label">
+                <input className="checkbox" type="checkbox" onChange={() => type === 'password'? setType('text') : setType('password')}/>
+                <span className="checkbox-img"/>
+              </label>
+
             </div>
+            <Link className="input-link" to="/forgot" >Forgot your password?</Link>
+            <p style={{ color: 'red' }}>{errors.password?.message}</p>
           </div>
+          
+          
+
+
         )}
 
-        <button type="submit" className="submit">Log in Qencode</button>
+        <button type="submit" className="submit">Log in to Qencode</button>
       </form>
 
       <div className="login-bottom">

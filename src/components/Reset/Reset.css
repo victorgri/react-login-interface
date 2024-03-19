@@ -1,0 +1,15 @@
+.submit-btn {
+  cursor: pointer;
+  color: #fff;
+  padding: 13px 155px 13px;
+  
+  text-align: center;
+  background-color: #316FEA;
+  border-radius: 8px;
+  border: 1px solid #316FEA;
+
+  text-decoration: none;
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 16px;
+  line-height: 21px;
+}

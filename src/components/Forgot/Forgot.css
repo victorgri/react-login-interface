@@ -1,0 +1,25 @@
+.forgot {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.submit-btn {
+  cursor: pointer;
+  color: #fff;
+  padding: 13px 195px 13px;
+  
+  text-align: center;
+  background-color: #316FEA;
+  border-radius: 8px;
+  border: 1px solid #316FEA;
+
+  font-family: Basis Grotesque Pro, sans-serif;
+  font-size: 16px;
+  line-height: 21px;
+}
+
+.submit-btn-cancel {
+  background-color: #fff;
+  color: #060E1E;
+}

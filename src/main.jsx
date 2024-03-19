@@ -1,4 +1,5 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bulma';
 import ReactDOM from 'react-dom/client'
