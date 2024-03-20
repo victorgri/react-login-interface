@@ -1,6 +1,6 @@
 # Login intarface
 DEMO: https://victorgri.github.io/react-login-interface/
-## This react app was created with Vite.
+## This react app was created with Vite. What you can do?
 - Login with Google
 - Login with Github
 - Login with Email and Password
