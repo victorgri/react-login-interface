@@ -8,7 +8,7 @@ function App() {
 
 
   return (
-    <HashRouter>
+    <HashRouter basename="/react-login-interface">
       <>
         <img className="logo" src="./logo.svg" alt="logo" />
         <Routes>
